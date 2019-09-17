@@ -38,7 +38,7 @@ function createQuantityInput(){
   const input = document.createElement("input")
   input.type = "number"
   input.min = 0
-  input.class = "quantity"
+  input.className = "quantity"
   input.value = 0
 
   const label = document.createElement("label")
@@ -53,8 +53,10 @@ function createQuantityInput(){
 
 function createDeleteButton(){
  const button = document.createElement("button")
- button.class = "btn btn-delete"
+ button.className = "btn btn-delete"
  button.textContent = "Delete"
+
+ button.onclick = deleteItem;
 
  const div = document.createElement("div")
  div.append(button)
@@ -62,21 +64,57 @@ function createDeleteButton(){
  return div
 }
 
-function createQuantityNode(){
+function createTotalPrice(){
+  const span = document.createElement("span")
+  span.innerText = "$0.00"
+  span.className = "total-price"
 
-}
-
-function createItemNode(dataType, itemData){
-
+  const div = document.createElement("div")
+  div.append(span)
+  return div
 }
 
 function createNewItemRow(itemName, itemUnitPrice){
+  const span = document.createElement("span")
+  span.innerText = itemName 
 
+  const div = document.createElement("div")
+  div.append(span)
+
+  div.className = "product-name"
+
+  const priceSpan = document.createElement("span")
+  priceSpan.innerText = beautifyQuantity(Number(itemUnitPrice))
+
+  const price = document.createElement("div")
+  price.append(priceSpan)
+
+  price.className = "price"
+
+  const divProduct = document.createElement("div")
+  divProduct.className = "product"
+
+  divProduct.append(div)
+  divProduct.append(price)
+  divProduct.append(createQuantityInput())
+  divProduct.append(createTotalPrice())
+  divProduct.append(createDeleteButton())
+
+  
+  return divProduct
 }
 
 function createNewItem() {
-  const inputName = document.getElementById('name-input').value
-  const inputNumber = document.getElementById('number-input').value
+  let inputName = document.getElementById('name-input').value
+  let inputNumber = document.getElementById('number-input').value
+
+  if (inputName && inputNumber) {
+    
+    const newElement =createNewItemRow(inputName, inputNumber)
+    document.querySelector(".products").append(newElement)
+    document.getElementById('name-input').value = ""
+    document.getElementById('number-input').value = 0
+  }
 
 }
 
